@@ -2,6 +2,7 @@
 # -*- encoding: utf-8 -*-
 
 import httplib
+import magic
 import os
 import time
 import sys
@@ -259,10 +260,14 @@ while i<len(search_keyword):
             if len(items[k][1]) != 0:
                 with open(os.path.join(DIR, str(k+1)+"." + items[k][1]),'wb') as output_file:
                     data = response.read()
-                    output_file.write(data)
+                    type_i = magic.from_buffer(data)
+                    print type_i
+                    if type_i.find("image", 0, 30):
+                        output_file.write(data)
+                        print ("saved ====> " + str(k+1)) + " url: " + items[k][0]
+                    else:
+                        print "wrong data type"
                     response.close();
-                    print ("saved ====> " + str(k+1)) + " url: " + items[k][0]
-
             k=k+1;
 
         except IOError:
