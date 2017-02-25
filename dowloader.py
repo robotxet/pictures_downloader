@@ -12,67 +12,67 @@ import urllib2
 
 #This list is used to search keywords. You can edit this list to search for google images of your choice.
 search_keyword = [
-'Abaddon',
-'Alchemist',
-'Ancient Apparition',
-'Anti-Mage',
-'Arc Warden',
-'Axe',
-'Bane',
-'Batrider',
-'Beastmaster',
-'Bloodseeker',
-'Bounty Hunter',
-'Brewmaster',
-'Bristleback',
-'Broodmother',
-'Centaur Warrunner',
-'Chaos Knight',
-'Chen',
-'Clinkz',
-'DDClockwerk',
-'Crystal Maiden',
-'Dark Seer',
-'Dazzle',
-'Death Prophet',
-'Disruptor',
-'Doom',
-'Dragon Knight',
-'Drow Ranger',
-'Earth Spirit',
-'Earthshaker',
-'Elder Titan',
-'Ember Spirit',
-'Enchantress',
-'Enigma',
-'Faceless Void',
-'Gyrocopter',
-'Huskar',
-'Invoker',
-'Io',
-'Jakiro',
-'Juggernaut',
-'Keeper of the Light',
-'Kunkka',
-'Legion Commander',
-'Leshrac',
-'Lich',
-'Lifestealer',
-'Lina',
-'Lion',
-'Lone Druid',
-'Luna',
-'Lycan',
-'Magnus',
-'Medusa',
-'Meepo',
-'Mirana',
-'Morphling',
-'Monkey King',
-'Naga Siren',
-'Nature’s Prophet',
-'Necrophos',
-'Night Stalker',
+# 'Abaddon',
+# 'Alchemist',
+# 'Ancient Apparition',
+# 'Anti-Mage',
+# 'Arc Warden',
+# 'Axe',
+# 'Bane',
+# 'Batrider',
+# 'Beastmaster',
+# 'Bloodseeker',
+# 'Bounty Hunter',
+# 'Brewmaster',
+# 'Bristleback',
+# 'Broodmother',
+# 'Centaur Warrunner',
+# 'Chaos Knight',
+# 'Chen',
+# 'Clinkz',
+# 'DDClockwerk',
+# 'Crystal Maiden',
+# 'Dark Seer',
+# 'Dazzle',
+# 'Death Prophet',
+# 'Disruptor',
+# 'Doom',
+# 'Dragon Knight',
+# 'Drow Ranger',
+# 'Earth Spirit',
+# 'Earthshaker',
+# 'Elder Titan',
+# 'Ember Spirit',
+# 'Enchantress',
+# 'Enigma',
+# 'Faceless Void',
+# 'Gyrocopter',
+# 'Huskar',
+# 'Invoker',
+# 'Io',
+# 'Jakiro',
+# 'Juggernaut',
+# 'Keeper of the Light',
+# 'Kunkka',
+# 'Legion Commander',
+# 'Leshrac',
+# 'Lich',
+# 'Lifestealer',
+# 'Lina',
+# 'Lion',
+# 'Lone Druid',
+# 'Luna',
+# 'Lycan',
+# 'Magnus',
+# 'Medusa',
+# 'Meepo',
+# 'Mirana',
+# 'Morphling',
+# 'Monkey King',
+# 'Naga Siren',
+# 'Nature’s Prophet',
+# 'Necrophos',
+# 'Night Stalker',
 'Nyx Assassin',
 'Ogre Magi',
 'Omniknight',
@@ -259,18 +259,21 @@ while i<len(search_keyword):
                 os.mkdir(DIR)
             if len(items[k][1]) != 0:
                 with open(os.path.join(DIR, str(k+1)+"." + items[k][1]),'wb') as output_file:
-                    data = response.read()
                     try:
-                        type_i = magic.from_buffer(data)
-                        print type_i
-                        if type_i.find("image", 0, 30):
-                            output_file.write(data)
-                            print ("saved ====> " + str(k+1)) + " url: " + items[k][0]
-                        else:
-                            print "wrong data type"
-                        response.close();
+                        data = response.read()
+                        try:
+                            type_i = magic.from_buffer(data)
+                            print type_i
+                            if type_i.find("image", 0, 30):
+                                output_file.write(data)
+                                print ("saved ====> " + str(k+1)) + " url: " + items[k][0]
+                            else:
+                                print "wrong data type"
+                            response.close();
+                        except Exception:
+                           print("Probably Magic.from_buffer exception at image "+str(k)) 
                     except Exception:
-                       print("Probably Magic.from_buffer exception at image "+str(k)) 
+                           print("Probably httplib.IncompleteRead: IncompleteRead at image "+str(k)) 
             k=k+1;
 
         except IOError:
